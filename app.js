@@ -9,6 +9,7 @@ const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const expressError = require("./utils/expressError.js");
 const {listingSchema} = require("./schema.js");
+const { error } = require("console");
 
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"views"));
@@ -33,9 +34,10 @@ app.get("/",(req,res)=>{
 
 const validateListing = (req,res,next)=>{
     let {error} = listingSchema.validate(req.body);
-
+    
     if(error){
-        throw new expressError(404,result.error);
+        let errMsg = error.details.map((el)=>el.message).join(",");
+        throw new expressError(404,errMsg);
     }else{
         next();
     }
@@ -92,7 +94,7 @@ app.all("*",(req,res,next)=>{
 });
 
 app.use((err,req,res,next)=>{
-    let {statusCode=500,message="Something Wend Wrong!"} = err; 
+    let {statusCode=500,message="Something Wend Wrong!"} = err;
     res.status(statusCode).render("error.ejs",{message});
 })
 
