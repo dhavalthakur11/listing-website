@@ -1,16 +1,15 @@
 <% layout("/layouts/boilerplate.ejs") %>
     <div class="row">
         <div class="col-8 offset-3">
-    <h3>Listing Details</h3>
+    <h3><%= listings.title %></h3>
         </div>
     <div class="card col-6 offset-3">
         <img src="<%= listings.image %>" class="card-img-top show-img show-card" alt="listing_image">
         <div class="card-body">
-            <p class="card-text"><b><%= listings.title %></b>
-            </p><%= listings.description %> <br>
-            <p> &#8377;<%= listings.price.toLocaleString("en-IN") %> </p><br>
-            <%= listings.location %> <br>
-            <%= listings.country %>
+            </p><%= listings.description %>
+            <p> &#8377;<%= listings.price.toLocaleString("en-IN") %> </p>
+            <p><%= listings.location %> <br>
+            <%= listings.country %></p>
         </div>
     </div>
     <br>
@@ -20,4 +19,19 @@
         <button class="btn btn-dark offset-5">Delete</button>   
     </form>
 </div>
+    <div class="col-8 offset-3 mb-3">
+        <hr>
+        <h4>Leave a Review</h4>
+        <form action="/listings/<%= listings.id %>/reviews" method="POST">
+            <div class="mb-3 mt-3">
+                <label for="ratting" class="form-label">Ratting</label>
+                <input type="range" min="1" max="5" id="ratting" name="reviews[ratting]" class="form-range">
+            </div>
+            <div class="mb-3 mt-3">
+                <label for="comment" class="form-label">Comment</label>
+                <textarea name="reviews[comment]" id="comment" cols="10" rows="5" class="form-control"></textarea>
+            </div>
+            <button class="btn btn-outline-dark">Submit</button>
+        </form>
+    </div>
 </div>

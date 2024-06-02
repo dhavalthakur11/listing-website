@@ -9,12 +9,18 @@ const listingSchema = new Schema({
     description: String,
     image: {
         type: String,
-        default:"https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.britannica.com%2Fplant%2Fcoconut-palm&psig=AOvVaw02QfM8WxCKw4_fQwpvkBvl&ust=1715331680879000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPC1l86agIYDFQAAAAAdAAAAABAJ",
-        set: (v) => v === "" ? "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.britannica.com%2Fplant%2Fcoconut-palm&psig=AOvVaw02QfM8WxCKw4_fQwpvkBvl&ust=1715331680879000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPC1l86agIYDFQAAAAAdAAAAABAJ" : v, //termery operator
+        default:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0y78kq1YMuQ_QBV6Eo_osE4CeGnN1Z_6Aag&s",
+        set: (v) => v === "" ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0y78kq1YMuQ_QBV6Eo_osE4CeGnN1Z_6Aag&s" : v, //termery operator
     },
     price: Number,
     location: String,
     country: String,
+    reviews:[
+    {
+        type: Schema.Types.ObjectId,
+        ref:"Review",
+    }
+    ],
 });
 
 const Listing = mongoose.model("Listing", listingSchema);

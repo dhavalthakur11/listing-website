@@ -10,6 +10,7 @@ const wrapAsync = require("./utils/wrapAsync.js");
 const expressError = require("./utils/expressError.js");
 const {listingSchema} = require("./schema.js");
 const { error } = require("console");
+const Review = require("./models/reviews.js");
 
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"views"));
@@ -96,7 +97,20 @@ app.all("*",(req,res,next)=>{
 app.use((err,req,res,next)=>{
     let {statusCode=500,message="Something Wend Wrong!"} = err;
     res.status(statusCode).render("error.ejs",{message});
-})
+});
+
+//reviews route 
+app.post("/listings/:id/reviews",async(req,res)=>{
+    let listings = await Listing.findById(req.params.id);
+    let newReview = new Review(req.body.reviews);
+    listing.reviews.push(newReview);
+
+    await newReview.save();
+    await listings.save();
+
+    console.log("new review saved");
+    res.send("new review saved");
+});
 
 app.listen(8080,(req,res)=>{
     console.log("listening on 8080");
