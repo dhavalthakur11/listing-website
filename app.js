@@ -90,6 +90,21 @@ app.delete("/listings/:id",wrapAsync(async (req,res)=>{
     res.redirect("/listings");
 }));
 
+
+//reviews route 
+app.post("/listings/:id/reviews",async(req,res)=>{
+    let listings = await Listing.findById(req.params.id);
+    let newReview = new Review(req.body.reviews);
+    listings.reviews.push(newReview);
+
+    await newReview.save();
+    await listings.save();
+
+    console.log("new review saved");
+    res.send("new review saved");
+});
+
+
 app.all("*",(req,res,next)=>{
     next(new expressError(404,"Page Not Found!"));
 });
@@ -97,19 +112,6 @@ app.all("*",(req,res,next)=>{
 app.use((err,req,res,next)=>{
     let {statusCode=500,message="Something Wend Wrong!"} = err;
     res.status(statusCode).render("error.ejs",{message});
-});
-
-//reviews route 
-app.post("/listings/:id/reviews",async(req,res)=>{
-    let listings = await Listing.findById(req.params.id);
-    let newReview = new Review(req.body.reviews);
-    listing.reviews.push(newReview);
-
-    await newReview.save();
-    await listings.save();
-
-    console.log("new review saved");
-    res.send("new review saved");
 });
 
 app.listen(8080,(req,res)=>{
