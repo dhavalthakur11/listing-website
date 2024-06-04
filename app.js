@@ -8,7 +8,7 @@ const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const expressError = require("./utils/expressError.js");
 const listings = require("./routs/listing.js");
-const reviews = require("./models/reviews.js");
+const reviews = require("./routs/reviews.js");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
