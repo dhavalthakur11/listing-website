@@ -14,9 +14,14 @@ router.post("/singup",wrapAsync(async(req,res)=>{
         let {username,email,password} = req.body;
         const newUser = new User({email,username});
         const registeredUser = await User.register(newUser,password);
-        console.log(registeredUser);
-        req.flash("success","welcome to wanderlust");
-        res.redirect("/listings");
+        req.login(registeredUser,(err)=>{
+            if(err){
+                return next(err);
+            }
+            req.flash("success","welcome to wanderlust");
+            res.redirect("/listings");
+        });
+        
     }catch(e){
         req.flash("error",e.message);
         res.redirect("/singup");
@@ -31,6 +36,16 @@ router.post("/login",passport.authenticate("local",{failureRedirect:'/login',fai
 //passport.authenticate it's use for authenticate user from database it's  exit or no
     req.flash("success","welcome to wanderlust. you are loged in");
     res.redirect("/listings");
+});
+
+router.get("/logout",(req,res,next)=>{
+    req.logOut((err)=>{
+        if(err){
+            return next(err);
+        }
+        req.flash("success","you are loged out");
+        res.redirect("/listings");
+    });
 });
 
 module.exports = router;
