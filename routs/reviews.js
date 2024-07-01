@@ -4,12 +4,13 @@ const wrapAsync = require("../utils/wrapAsync.js");
 const expressError = require("../utils/expressError.js");
 const Review = require("../models/reviews.js");
 const Listing = require("../models/listing.js");
-const {validateReview} = require("../middleware.js");
+const {validateReview, isLoggedin} = require("../middleware.js");
 
 //Post review route
-router.post("/", validateReview, wrapAsync(async (req, res) => {
+router.post("/",isLoggedin, validateReview, wrapAsync(async (req, res) => {
     let listings = await Listing.findById(req.params.id);
     let newReview = new Review(req.body.reviews);
+    newReview.author = req.user._id;
     listings.reviews.push(newReview);
 
     await newReview.save();

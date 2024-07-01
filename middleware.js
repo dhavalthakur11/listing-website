@@ -28,6 +28,7 @@ module.exports.isOwner = async(req,res,next) => {
     next();
 }
 
+//Validate Listings schema server side error
 module.exports.validateListing = (req, res, next) => {
     let { error } = listingSchema.validate(req.body);
 

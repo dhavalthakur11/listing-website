@@ -3,7 +3,6 @@ const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
 const Listing = require("../models/listing.js");
 const {isLoggedin,isOwner,validateListing} = require("../middleware.js");
-//Validate Listings schema server side error
 
 //Index Route
 router.get("/", wrapAsync(async (req, res) => {
@@ -19,7 +18,7 @@ router.get("/new",isLoggedin, (req, res) => {
 //Show route
 router.get("/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
-    let listings = await Listing.findById(id).populate("reviews").populate("owner");
+    let listings = await Listing.findById(id).populate({path:"reviews",populate:{path:"author"}}).populate("owner");
     if (!listings) {
         req.flash("error","Listing You Requested does not Exist");
         res.redirect("/listings");
