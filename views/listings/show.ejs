@@ -6,19 +6,21 @@
     <div class="card col-6 offset-3 listing-card">
         <img src="<%= listings.image %>" class="card-img-top show-img show-card" alt="listing_image">
         <div class="card-body">
-            </p><%= listings.description %>
-            <p> &#8377;<%= listings.price.toLocaleString("en-IN") %> </p>
-            <p><%= listings.location %> <br>
-            <%= listings.country %></p>
+            <p class="card-text">Owned by:<i><%= listings.owner.username %></i></p>
+            <p class="card-text"><%= listings.description %></p>
+            <p class="card-text"> &#8377;<%= listings.price.toLocaleString("en-IN") %> </p>
+            <p class="card-text"><%= listings.location %></p>
+            <p class="card-text"><%= listings.country %></p>
         </div>
     </div>
     <br>
-    <div class="btns">
-        <a href="/listings/<%= listings._id %>/edite" class="btn btn-dark col-1 offset-3 edit-btn">Edite</a>
-    <form action="/listings/<%= listings._id %>?_method=DELETE" method="POST">
-        <button class="btn btn-dark offset-5">Delete</button>   
-    </form>
-</div>
+        <div class="btns">
+            <a href="/listings/<%= listings._id %>/edite" class="btn btn-dark col-1 offset-3 edit-btn">Edite</a>
+        <form action="/listings/<%= listings._id %>?_method=DELETE" method="POST">
+            <button class="btn btn-dark offset-5">Delete</button>   
+        </form>
+    </div>
+
     <div class="col-8 offset-3 mb-3">
         <hr>
         <h4>Leave a Review</h4>
